@@ -1,11 +1,11 @@
 # Web Api Currency
 
 Webapp intermediario entre el usuario final y una api de consulta de valores de monedas. Puedes consultar por el currency code de un país, el valor actual de una moneda a partir de su currency code y hacer conversiones entre una moneda y otra.
-Api Consulta = https://api.exchangerate-api.com;
+Api Consulta: https://api.exchangerate-api.com;
 
 ## Requisitos del Sistema
 
-- .Net v7.0, AspNetCore.OpenApi Version="7.0.13", Azure Functions y PostBin para logear.
+- .Net v7.0, AspNetCore.OpenApi Version="7.0.13", Azure Functions y PostBin para loggear.
 
 ## Instalación
 
