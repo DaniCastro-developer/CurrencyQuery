@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using CurrancyQuery_API.Models;
+using CurrancyQuery_API.Models.DTO;
 using CurrancyQuery_API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,7 +11,15 @@ namespace CurrancyQuery_API.Controllers
     [ApiController]
     public class CurrencyCodeController : ControllerBase
     {
-        
+        private readonly ExchangeRateService _exchangeRateService;
+        private readonly PostBinService _postBinService;
+
+        public CurrencyCodeController(ExchangeRateService exchangeRateService, PostBinService postBinService)
+        {
+            _exchangeRateService = exchangeRateService;
+            _postBinService = postBinService;
+        }
+
         [HttpGet("getCurrencyCode")]
         public IActionResult GetCurrencyCode(string searchName)
         {
@@ -21,13 +30,13 @@ namespace CurrancyQuery_API.Controllers
 
             var result = new CurrencyFileReader().GetCurrencyCode(searchName);
 
-            if (result != null)
+            if (result.Count != 0)
             {
                 return Ok(result);
             }
             else
             {
-                return NotFound();
+                return NotFound($"No se ha encontrado CurrencyCode para {searchName}");
             }
         }
 
@@ -43,91 +52,42 @@ namespace CurrancyQuery_API.Controllers
                 }
 
                 // Realizar la petición a la API externa (exchangerate-api)
-                var apiResult = await GetExchangeRate(currencyCode);
-                
+                var apiResult = _exchangeRateService.GetExchangeRate(currencyCode);
+
+
                 // Log RQ enviado
                 var requestLog = new RequestLog
                 {
                     Request = $"GET /api/Currency/GetCurrencyChanges?currencyCode={currencyCode}",
                     Fecha = DateTime.UtcNow.ToString("dd-mm-yy hh:mm"),
-                    Response = apiResult != null ? 200 : 404
+                    Response = apiResult.Result != null ? 200 : 404
                 };
 
                 // Registrar en PostBin
-                await PostToPostBin(requestLog);
+                await _postBinService.PostToPostBin(requestLog);
 
-                if (apiResult != null)
+                if (apiResult.Result != null)
                 {
-                    requestLog.Response = 200;
-                    return Ok(apiResult.Rates);
-                } else
+                    // Mapear respuesta según Dto
+                    var currencyChangeDto = new CurrencyChangeDto
+                    {
+                        CurrencyCode = currencyCode.ToUpper(),
+                        Values = apiResult.Result.Rates,
+                    };
+
+                    return Ok(currencyChangeDto);
+                }
+                else
                 {
-                    requestLog.Response = 404;
-                    return NotFound("No se pudo obtener el cambio de la moneda");
-                }     
-                
+                    return NotFound($"No se ha encontrado valor para la moneda {currencyCode}");
+                }
+
             }
             catch (Exception ex)
             {
 
                 Console.WriteLine($"Error en GetCurrencyChanges: {ex}");
                 return StatusCode(500, "Error interno del servidor");
-            }
-
-        
-        }
-        [HttpGet("GetExchangeRate")]
-        public async Task<ApiResponse> GetExchangeRate(string currencyCode)
-        {
-            // URL de la API externa
-            var apiUrl = $"https://api.exchangerate-api.com/v4/latest/{currencyCode}";
-
-            using (HttpClient httpClient = new HttpClient())
-            {
-                try
-                {
-                    httpClient.DefaultRequestHeaders.Clear();
-
-                    // Realizar la petición GET
-                    var response = httpClient.GetAsync(apiUrl).Result;
-
-                    // Verificar si la solicitud fue exitosa (código de estado 200 OK)
-                    if (response.IsSuccessStatusCode)
-                    {
-                        // Leer y deserializar la respuesta JSON
-                        var jsonResponse = response.Content.ReadAsStringAsync().Result;
-                        var apiResult = JsonConvert.DeserializeObject<ApiResponse>(jsonResponse);
-
-                        return apiResult;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Manejar excepciones, por ejemplo, loggear el error
-                    Console.WriteLine($"Error al realizar la petición a la API externa: {ex}");
-                    return null;
-                }
-            }
-        }
-
-        private async Task PostToPostBin(RequestLog requestLog)
-        {
-            // Log a PostBin
-            var postBinUrl = "https://www.toptal.com/developers/postbin/1699966965998-4839934348128";
-            //var logEntry = new LogEntry()
-            //{
-            //    Request = requestLog
-            //};
-
-            var content = new StringContent(JsonConvert.SerializeObject(requestLog), Encoding.UTF8, "application/json");
-
-            using (var httpClient = new HttpClient())
-            {
-                await httpClient.PostAsJsonAsync(postBinUrl, requestLog);
             }
         }
 
