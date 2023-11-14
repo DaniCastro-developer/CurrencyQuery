@@ -4,7 +4,7 @@
     {
         public string Request { get; set; } 
         public int Response { get; set; }
-        public DateTime Fecha { get; set; }
+        public string Fecha { get; set; }
 
     }
 }

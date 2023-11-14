@@ -1,10 +1,7 @@
-﻿using System.Text.Json.Nodes;
-using CurrancyQuery_API.Interfaz;
+﻿using System.Text;
 using CurrancyQuery_API.Models;
 using CurrancyQuery_API.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 
 namespace CurrancyQuery_API.Controllers
@@ -52,7 +49,7 @@ namespace CurrancyQuery_API.Controllers
                 var requestLog = new RequestLog
                 {
                     Request = $"GET /api/Currency/GetCurrencyChanges?currencyCode={currencyCode}",
-                    Fecha = DateTime.UtcNow,
+                    Fecha = DateTime.UtcNow.ToString("dd-mm-yy hh:mm"),
                     Response = apiResult != null ? 200 : 404
                 };
 
@@ -120,15 +117,17 @@ namespace CurrancyQuery_API.Controllers
         private async Task PostToPostBin(RequestLog requestLog)
         {
             // Log a PostBin
-            var postBinUrl = "https://www.toptal.com/developers/postbin/1699901571300-2177225337363";
-            var logEntry = new LogEntry
-            {
-                Request = requestLog
-            };
+            var postBinUrl = "https://www.toptal.com/developers/postbin/1699966965998-4839934348128";
+            //var logEntry = new LogEntry()
+            //{
+            //    Request = requestLog
+            //};
+
+            var content = new StringContent(JsonConvert.SerializeObject(requestLog), Encoding.UTF8, "application/json");
 
             using (var httpClient = new HttpClient())
             {
-                await httpClient.PostAsJsonAsync(postBinUrl, logEntry);
+                await httpClient.PostAsJsonAsync(postBinUrl, requestLog);
             }
         }
 
