@@ -9,33 +9,44 @@ namespace CurrancyQuery_API.Services
 {
     public class CurrencyFileReader : ICurrencyFileReader
     {
-        //TO:DO limpiar esta parte
-        private readonly string _filePath = @"C:\\Users\\DanielaCastro\\Documents\\currencycodes.txt";
+        //TODO: limpiar esta parte
+        //private readonly string _filePath = @"C:\\Users\\DanielaCastro\\Documents\\currencycodes.txt";
+
+        private readonly string _filePath;
+
+        public CurrencyFileReader(string filePath)
+        {
+            _filePath = filePath;
+        }
 
         //Leer archivo txt y obtener data
         public List<Currency> ReadCurrenciesFromFile()
         {
-            
-            try
-            {
-                string jsonContent;
+            var json = File.ReadAllText(_filePath);
+            var currenciesData = JsonConvert.DeserializeObject<CurrencyData>(json);
 
-                using(StreamReader reader = new StreamReader(_filePath))
-                {
-                    jsonContent = reader.ReadToEnd();
-                }
+            return currenciesData?.Currencies;
 
-                var result = JsonConvert.DeserializeObject<CurrencyData>(jsonContent);
+            //try
+            //{
+            //    string jsonContent;
 
-                return result?.Currencies;
+            //    using(StreamReader reader = new StreamReader(_filePath))
+            //    {
+            //        jsonContent = reader.ReadToEnd();
+            //    }
 
-            }
-            catch (Exception ex)
-            {
+            //    var result = JsonConvert.DeserializeObject<CurrencyData>(jsonContent);
 
-                Console.WriteLine($"Error al leer/deserializar el archivo: {ex.Message}");
-                return null; // O maneja el error de alguna manera específica de tu aplicación
-            }
+            //    return result?.Currencies;
+
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    Console.WriteLine($"Error al leer/deserializar el archivo: {ex.Message}");
+            //    return null; // O maneja el error de alguna manera específica de tu aplicación
+            //}
         }
 
         //Filtrar y obtener currency Code

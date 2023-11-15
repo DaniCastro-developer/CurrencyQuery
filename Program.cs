@@ -9,6 +9,8 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<ExchangeRateService>();
 builder.Services.AddScoped<PostBinService>();
 
+builder.Services.AddSingleton(new CurrencyFileReader("Data/currencyData.json"));
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

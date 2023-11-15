@@ -10,11 +10,11 @@ namespace CurrancyQuery_API.Services
         public async Task PostToPostBin(RequestLog requestLog)
         {
             // url PostBin
-            var postBinUrl = "https://www.toptal.com/developers/postbin/1699966965998-4839934348128";
+            var postBinUrl = "https://www.toptal.com/developers/postbin/1699991205668-8590251745190";
 
             using (var httpClient = new HttpClient())
             {
-                await httpClient.PostAsJsonAsync(postBinUrl, requestLog);
+                var res = await httpClient.PostAsJsonAsync(postBinUrl, requestLog);
             }
         }
     }

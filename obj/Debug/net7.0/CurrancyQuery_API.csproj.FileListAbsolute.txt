@@ -7,6 +7,7 @@ C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\bin\Debu
 C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\bin\Debug\net7.0\CurrancyQuery_API.pdb
 C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\bin\Debug\net7.0\Microsoft.OpenApi.dll
+C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\bin\Debug\net7.0\Newtonsoft.Json.dll
 C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -31,4 +32,3 @@ C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\obj\Debu
 C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\obj\Debug\net7.0\CurrancyQuery_API.pdb
 C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\obj\Debug\net7.0\CurrancyQuery_API.genruntimeconfig.cache
 C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\obj\Debug\net7.0\ref\CurrancyQuery_API.dll
-C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\bin\Debug\net7.0\Newtonsoft.Json.dll

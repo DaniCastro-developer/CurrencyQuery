@@ -5,7 +5,7 @@ using CurrancyQuery_API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace CurrancyQuery_API.Controllers
+namespace CurrencyQuery_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -13,11 +13,13 @@ namespace CurrancyQuery_API.Controllers
     {
         private readonly ExchangeRateService _exchangeRateService;
         private readonly PostBinService _postBinService;
+        private readonly CurrencyFileReader _fileReader;
 
-        public CurrencyCodeController(ExchangeRateService exchangeRateService, PostBinService postBinService)
+        public CurrencyCodeController(ExchangeRateService exchangeRateService, PostBinService postBinService, CurrencyFileReader fileReader)
         {
             _exchangeRateService = exchangeRateService;
             _postBinService = postBinService;
+            _fileReader = fileReader;
         }
 
         [HttpGet("getCurrencyCode")]
@@ -28,16 +30,10 @@ namespace CurrancyQuery_API.Controllers
                 return BadRequest("No se ha ingresado searchName");
             }
 
-            var result = new CurrencyFileReader().GetCurrencyCode(searchName);
+            var result = _fileReader.GetCurrencyCode(searchName);
 
-            if (result.Count != 0)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound($"No se ha encontrado CurrencyCode para {searchName}");
-            }
+
+            return result.Count != 0 ? Ok(result) : NotFound($"No se ha encontrado CurrencyCode para {searchName}");
         }
 
         //EndPoint 2

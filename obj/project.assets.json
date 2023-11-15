@@ -663,9 +663,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\DanielaCastro\\source\\repos\\CurrancyQuery_API\\CurrancyQuery_API\\CurrancyQuery_API.csproj",
-      "projectName": "CurrancyQuery_API",
-      "projectPath": "C:\\Users\\DanielaCastro\\source\\repos\\CurrancyQuery_API\\CurrancyQuery_API\\CurrancyQuery_API.csproj",
+      "projectUniqueName": "C:\\Users\\DanielaCastro\\source\\repos\\CurrancyQuery_API\\CurrancyQuery_API\\CurrencyQuery_API.csproj",
+      "projectName": "CurrencyQuery_API",
+      "projectPath": "C:\\Users\\DanielaCastro\\source\\repos\\CurrancyQuery_API\\CurrancyQuery_API\\CurrencyQuery_API.csproj",
       "packagesPath": "C:\\Users\\DanielaCastro\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\DanielaCastro\\source\\repos\\CurrancyQuery_API\\CurrancyQuery_API\\obj\\",
       "projectStyle": "PackageReference",

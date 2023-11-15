@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cHM/lpIQvw67I2VIEswg9W13ZZese1HDUmn/8jBE/uomDxKhkv7kWNR81EJ5udgG4wj4kcu0JnpXQNz84JBvVA==",
+  "dgSpecHash": "6QXQih1vFCjAKeeSwO2AYByAn0mWfnb4BjX6GdHKgreKkAd8gaGUWsZM4PPDUIIYiJ9E6KxSM8D8w2dSCJ+0FQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\DanielaCastro\\source\\repos\\CurrancyQuery_API\\CurrancyQuery_API\\CurrancyQuery_API.csproj",
+  "projectFilePath": "C:\\Users\\DanielaCastro\\source\\repos\\CurrancyQuery_API\\CurrancyQuery_API\\CurrencyQuery_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DanielaCastro\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.13\\microsoft.aspnetcore.openapi.7.0.13.nupkg.sha512",
     "C:\\Users\\DanielaCastro\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
