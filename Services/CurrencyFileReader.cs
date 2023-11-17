@@ -9,44 +9,28 @@ namespace CurrancyQuery_API.Services
 {
     public class CurrencyFileReader : ICurrencyFileReader
     {
-        //TODO: limpiar esta parte
-        //private readonly string _filePath = @"C:\\Users\\DanielaCastro\\Documents\\currencycodes.txt";
-
         private readonly string _filePath;
-
         public CurrencyFileReader(string filePath)
         {
             _filePath = filePath;
         }
 
-        //Leer archivo txt y obtener data
+        //Leer archivo json y obtener data
         public List<Currency> ReadCurrenciesFromFile()
         {
-            var json = File.ReadAllText(_filePath);
-            var currenciesData = JsonConvert.DeserializeObject<CurrencyData>(json);
+            try
+            {
+                var json = File.ReadAllText(_filePath);
+                var currenciesData = JsonConvert.DeserializeObject<CurrencyData>(json);
 
-            return currenciesData?.Currencies;
+                return currenciesData?.Currencies;
 
-            //try
-            //{
-            //    string jsonContent;
-
-            //    using(StreamReader reader = new StreamReader(_filePath))
-            //    {
-            //        jsonContent = reader.ReadToEnd();
-            //    }
-
-            //    var result = JsonConvert.DeserializeObject<CurrencyData>(jsonContent);
-
-            //    return result?.Currencies;
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    Console.WriteLine($"Error al leer/deserializar el archivo: {ex.Message}");
-            //    return null; // O maneja el error de alguna manera específica de tu aplicación
-            //}
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al leer/deserializar el archivo: {ex.Message}");
+                return null;
+            }
         }
 
         //Filtrar y obtener currency Code
