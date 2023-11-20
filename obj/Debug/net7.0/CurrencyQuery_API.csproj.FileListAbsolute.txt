@@ -33,3 +33,4 @@ C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\obj\Debu
 C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\obj\Debug\net7.0\CurrencyQuery_API.genruntimeconfig.cache
 C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\obj\Debug\net7.0\ref\CurrencyQuery_API.dll
 C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\bin\Debug\net7.0\Data\currencyData.json
+C:\Users\DanielaCastro\source\repos\CurrancyQuery_API\CurrancyQuery_API\obj\Debug\net7.0\CurrencyQuery_API.sourcelink.json
