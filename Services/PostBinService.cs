@@ -1,5 +1,7 @@
 ﻿using CurrancyQuery_API.Models;
 using CurrencyQuery_API.Interfaz;
+using System.Text;
+using System.Text.Json;
 
 namespace CurrancyQuery_API.Services
 {
@@ -25,7 +27,7 @@ namespace CurrancyQuery_API.Services
                     Fecha = DateTime.Now.ToString("dd-mm-yy hh:mm"),
                     Response = status,
                     //Rates
-                    
+
                 };
 
                 // url PostBin
@@ -45,23 +47,30 @@ namespace CurrancyQuery_API.Services
 
         public async Task LogPostBinWithValues(string currencyCode, ApiResponse result)
         {
+
+            IEnumerable<object>? ratesList = result?.Rates?.Select(s => new { Clave = s.Key, Valor = s.Value });
+
             try
             {
                 // Log RQ enviado
                 var requestLog = new RequestLogWithValues
                 {
                     Request = "GET/ " + _configuration["UrlApiCurrencies"].Replace("{0}", currencyCode),
-                    Fecha = DateTime.UtcNow.ToString("dd-mm-yy hh:mm"),
+                    Fecha = DateTime.Now.ToString("dd-mm-yy hh:mm:ss"),
                     Response = result.Rates != null ? 200 : 204,
-                    Rates = result?.Rates
+                    //Rates = result?.Rates,
+                    DataContent = ratesList
 
                 };
 
                 // url PostBin
                 var postBinUrl = _configuration["PostBinUrlPost"];
 
+                //string json = JsonSerializer.Serialize(requestLog);
+
                 using (var httpClient = new HttpClient())
                 {
+                    //var content = new StringContent(json, Encoding.UTF8, "application/json");
                     var res = await httpClient.PostAsJsonAsync(postBinUrl, requestLog);
                 }
             }
