@@ -5,6 +5,7 @@ using CurrancyQuery_API.Models.DTO;
 using CurrancyQuery_API.Services;
 using CurrencyQuery_API.Interfaz;
 using CurrencyQuery_API.Models.DTO;
+using CurrencyQuery_API.Models.RS;
 using CurrencyQuery_API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -31,28 +32,32 @@ namespace CurrencyQuery_API.Controllers
             _convertCurrencies = convertCurrencies;
         }
 
-        [HttpGet("getCurrencyCode")]
+        [HttpGet("getCurrencyCode/{searchName}")]
         public IActionResult GetCurrencyCode(string searchName)
         {
-            if (string.IsNullOrEmpty(searchName))
-            {
-                return BadRequest("No se ha ingresado searchName");
-            }
-
+           
             var result = _fileReader.GetCurrencyCode(searchName);
 
-            return result.Count != 0 ? Ok(result) : NoContent();
+            if(result.Count == 0)
+            {
+                var errorResponse = new
+                {
+                    Mensaje = GenericMessages.NoMatchesFound(searchName),
+                    CodeStatus = 404,
+                };
+
+                return BadRequest(errorResponse);
+
+            }
+
+            return Ok(result);
         }
 
         //EndPoint 2
-        [HttpGet("GetCurrencyChanges")]
+        [HttpGet("GetCurrencyChanges/{currencyCode}")]
         public async Task<IActionResult> GetCurrencyChanges(string currencyCode)
         {
-            if (string.IsNullOrEmpty(currencyCode))
-            {
-                return BadRequest("El código de moneda no puede estar vacío o nulo");
-            }
-
+            
             // Realizar la petición a la API externa (exchangerate-api)
             var apiResult = _exchangeRate.GetExchangeRate(currencyCode);
 
@@ -60,7 +65,18 @@ namespace CurrencyQuery_API.Controllers
 
 
             // Registrar en PostBin
-            await _postBin.LogPostBin(urlRQ, apiResult.Result != null ? 200 : 204);
+            await _postBin.LogPostBin(urlRQ, apiResult.Result != null ? 200 : 404);
+
+
+            if(apiResult.Result == null) {
+                var errorResponse = new
+                {
+                    Mensaje = GenericMessages.NoMatchesFound(currencyCode),
+                    CodeStatus = 404,
+                };
+
+                return BadRequest(errorResponse);
+            }
 
             // Mapear respuesta según Dto
             var currencyChangeDto = new CurrencyChangeDto
@@ -73,19 +89,15 @@ namespace CurrencyQuery_API.Controllers
         }
 
         //Endponit 3
-        [HttpGet("ConvertCurrencies")]
+        [HttpGet("ConvertCurrencies/{toCurrencyCode}/{fromCurrencyCode}")]
         public async Task<IActionResult> GetConvertCurrencies(string toCurrencyCode, string fromCurrencyCode)
         {
-            if (string.IsNullOrEmpty(toCurrencyCode) || string.IsNullOrEmpty(fromCurrencyCode))
-            {
-                return BadRequest("El código de moneda no puede estar vacío o nulo");
-            }
 
             var consult = _convertCurrencies.GetConvertCurrency(toCurrencyCode, fromCurrencyCode);
 
             string urlRQ = "GET/ " + Request.GetDisplayUrl();
 
-            await _postBin.LogPostBin(urlRQ, consult != 0 ? 200 : 204);
+            await _postBin.LogPostBin(urlRQ, consult != 0 ? 200 : 404);
 
             var convertResult = new ConvertCurrenciesDTO()
             {
@@ -94,7 +106,13 @@ namespace CurrencyQuery_API.Controllers
                 Value = consult
             };
 
-            return consult != 0 ? Ok(convertResult) : BadRequest();
+            var errorResponse = new
+            {
+                Mensaje = GenericMessages.GetBadRequestMessage(),
+                CodeStatus = 404,
+            };
+
+            return consult != 0 ? Ok(convertResult) : BadRequest(errorResponse);
         }
 
     }
