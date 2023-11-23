@@ -14,16 +14,12 @@ Api Consulta: https://api.exchangerate-api.com;
 
 ## Configuración ‼️‼️‼️
 
-- [Instrucciones adicionales de configuración, como configuración de bases de datos, variables de entorno, etc.]
+- En los archivos Json appsettings.json y local.settings.json configura las variables de entorno para enviar los logger a Postbin.
 
 ## Uso
 
 1. Ejecuta la aplicación con el comando `npm start` o `dotnet run`.
 2. Abre Swagger en tu navegador para interactuar con la API.
-
-## Estructura del Proyecto ‼️‼️‼️
-
-- [Descripción de la estructura del proyecto, por ejemplo, carpetas principales y su propósito.]
 
 
 ## Contacto
